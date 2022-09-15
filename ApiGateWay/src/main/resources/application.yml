@@ -1,0 +1,39 @@
+server:
+  port: 8086
+
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8081/eureka
+
+
+
+spring:
+  application:
+    name: gateway-service
+  cloud:
+   gateway:
+     routes:
+     - id: user-service
+       uri: http://localhost:5005/
+       predicates:
+       - Path=/api/user/v1/**
+     - id: school-service
+       uri: http://localhost:5002/
+       predicates:
+       - Path=/api/v1/**,/api/**,/api/v1/school/**
+       
+     globalcors:
+       corsConfigurations:
+         '[/**]':
+            allowedOrigins: "http://localhost:4200"
+            allowedHeaders: "*"
+            allowedMethods:
+            - GET
+            - POST
+            - PUT
+            - DELETE
+ 
+   
